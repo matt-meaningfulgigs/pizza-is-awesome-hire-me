@@ -1,89 +1,86 @@
 package nerfherder;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 //import org.openqa.selenium.support.ui.Select;
 
-public class LootPage extends BasePage{
-	private static final Log LOG = LogFactory.getLog(LootPage.class); 
-	private String baseUrl = "https://www.thinkgeek.com/product/";
-		
-	@FindBy(xpath="//h1[@itemprop='name']")
-	private WebElement itemName;
-
-	@FindBy(xpath="//h3[@itemprop='price']")
-	private WebElement price;
-	
-	@FindBy(xpath="//p[@class='availability']")
-	private WebElement available;
-	
-	private WebElement sku;
-	private WebElement quantity;
-	
-	@FindBy(id="submitcart")
+public class LootPage extends BasePage {
+	@FindBy(id = "submitcart")
 	private WebElement addToCartBtn;
-	
-	@FindBy(id="wish-list-add")
+
+	@FindBy(id = "wish-list-add")
 	private WebElement addToWishListBtn;
 
-	public LootPage(WebDriver driver){
+	@FindBy(xpath = "//p[@class='availability']")
+	private WebElement available;
+
+	private final String baseUrl = "https://www.thinkgeek.com/product/";
+
+	@FindBy(xpath = "//h1[@itemprop='name']")
+	private WebElement itemName;
+	@FindBy(xpath = "//h3[@itemprop='price']")
+	private WebElement price;
+
+	private WebElement quantity;
+
+	private WebElement sku;
+
+	public LootPage(WebDriver driver) {
 		super(driver);
-	}
-	
-	public LootPage(WebDriver driver, String prodId){
-		super(driver);
-		BasePage.goToUrl(driver, baseUrl+prodId);
 	}
 
-	// Redo
-	public boolean onLootPage(){
-		return this.itemName.isDisplayed();
+	public LootPage(WebDriver driver, String prodId) {
+		super(driver);
+		BasePage.goToUrl(driver, this.baseUrl + prodId);
 	}
-	
-	public String getItemName(){
+
+	public CartPage clickAddToCart() {
+		this.addToCartBtn.click();
+		return new CartPage(this.driver);
+	}
+
+	public String getItemName() {
 		// TODO: Select SKU
 		return this.itemName.getText();
 	}
-	
-	public String getPrice(){
+
+	public String getPrice() {
 		// TODO: Select SKU
 		return this.price.getText();
 	}
-	
-	public boolean isInStock(){
-		if(available.getText().contains("In stock")){
-			return true;
-		}
-		return false;
-	}
-	
-	public String getSku(){
-		return this.sku.getText();
-	}
-	
-	public void setSku(String sku){
-		Select options = new Select(this.sku);
-		options.selectByVisibleText(sku);
-	}
-	
-	public int getQuantity(){
+
+	public int getQuantity() {
 		// FYI, I used an int for quantity because I felt it looked better
 		// Ints my jam!
 		return Integer.parseInt(this.quantity.getAttribute("value"));
 	}
-	
-	public void setQuantity(int quantity){
+
+	public String getSku() {
+		return this.sku.getText();
+	}
+
+	public boolean isInStock() {
+		if (this.available.getText().contains("In stock")) {
+			return true;
+		}
+		return false;
+	}
+
+	// Redo
+	public boolean onLootPage() {
+		return this.itemName.isDisplayed();
+	}
+
+	public void setQuantity(int quantity) {
 		// I spy with my little eye, a variable type that starts with Int!
 		this.quantity.clear();
 		this.quantity.sendKeys(String.valueOf(quantity));
 	}
-	
-	public CartPage clickAddToCart(){
-		addToCartBtn.click();
-		return new CartPage(driver);
+
+	public void setSku(String sku) {
+		final Select options = new Select(this.sku);
+		options.selectByVisibleText(sku);
 	}
 }
