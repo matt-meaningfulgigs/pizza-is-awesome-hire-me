@@ -113,7 +113,7 @@ public class CartPage extends BasePage {
 	
 	public int getQuantity(){
 		// I just like ints is all
-		return Integer.parseInt(cartQuantity.getText());
+		return Integer.parseInt(cartQuantity.getAttribute("value"));
 	}
 	
 	public void setQuantity(int quantity){

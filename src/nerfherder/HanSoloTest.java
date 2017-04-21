@@ -17,23 +17,47 @@ public class HanSoloTest extends BaseTest{
 	@Test
 	public void testUpDog() throws Exception {
 		LootPage hanSoloRug = new LootPage(driver, "19fe");
-		LOG.info("Product Name: " + hanSoloRug.getItemName());
 
 		// Make sure that name game is on point
+		LOG.info("Product Name: " + hanSoloRug.getItemName());
 		assertEquals(hanSoloRug.getItemName(), "Han Solo in Carbonite Rug");
 		// What if he doesn't survive? He's worth a lot to me
+		LOG.info("Product Price(s): " + hanSoloRug.getPrice());
 		assertTrue(hanSoloRug.getPrice().contains("$49.99 - $69.99"));
 		// With that free Jabba pin, this bad boy may go out of stock
+		LOG.info("Is Han in Stock?: " + hanSoloRug.isInStock());
 		assertTrue(hanSoloRug.isInStock());
 		
 		// The item seems totes cool, brah, so let's pick an option. THE BIG ONE
 		hanSoloRug.setSku("Han Solo large/x-large $69.99");
+		LOG.info("New SKU Selection: " + hanSoloRug.getSku());
 		
 		// While the default is set to 1... Man... I already write the code for this, so I'm going to use it
 		hanSoloRug.setQuantity(1);
 		
+		LOG.info("New Quantity: " + hanSoloRug.getQuantity());
+		
 		CartPage cart = hanSoloRug.clickAddToCart();
-		LOG.info(cart);
+
+		LOG.info("Cart Size: " + cart.getCartSize());
+		LOG.info("Item Name: " + cart.getItemName());
+		LOG.info("Quantity: " + cart.getQuantity());
+		LOG.info("SKU: " + cart.getSku());
+		cart.setSku("Han Solo small/medium");
+		cart = cart.clickUpdateCartBtn();
+		LOG.info("SKU after change: " + cart.getSku());
+		LOG.info("retail price: " + cart.getCartRetailPrice());
+		LOG.info("unit price: " + cart.getCartUnitPrice());
+		LOG.info("total: " + cart.getCartTotal());
+		LOG.info("subtotal: " + cart.getSubtotal());
+		cart.setQuantity(3);
+		cart = cart.clickUpdateCartBtn();
+		LOG.info("Quantity after change: " + cart.getQuantity());
+		LOG.info("Total After Change: " + cart.getCartTotal());
+		LOG.info("Subtotal After Change: " + cart.getSubtotal());
+		
+		CheckoutAddressPage checkoutAddress = cart.clickBottomCheckoutBtn();
+		
 		
 		Thread.sleep(99999);
 	}

@@ -1,5 +1,7 @@
 package nerfherder;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -7,6 +9,7 @@ import org.openqa.selenium.support.ui.Select;
 //import org.openqa.selenium.support.ui.Select;
 
 public class LootPage extends BasePage{
+	private static final Log LOG = LogFactory.getLog(LootPage.class); 
 	private String baseUrl = "https://www.thinkgeek.com/product/";
 		
 	@FindBy(xpath="//h1[@itemprop='name']")
@@ -70,7 +73,7 @@ public class LootPage extends BasePage{
 	public int getQuantity(){
 		// FYI, I used an int for quantity because I felt it looked better
 		// Ints my jam!
-		return Integer.parseInt(this.quantity.getText());
+		return Integer.parseInt(this.quantity.getAttribute("value"));
 	}
 	
 	public void setQuantity(int quantity){
