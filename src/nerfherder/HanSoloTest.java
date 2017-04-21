@@ -58,8 +58,54 @@ public class HanSoloTest extends BaseTest{
 		
 		CheckoutAddressPage checkoutAddress = cart.clickBottomCheckoutBtn();
 		
+		checkoutAddress.setLoginEmail("1");
+		checkoutAddress.setLoginPass("2");
 		
-		Thread.sleep(99999);
+		checkoutAddress.setBillCountry("Austria");
+		checkoutAddress.setBillFirstName("3");
+		checkoutAddress.setBillLastName("last");
+		Thread.sleep(30);
+		checkoutAddress.setBillCompany("Pizza Lyfe");
+		Thread.sleep(30);
+		checkoutAddress.setBillAddress("addr");
+		checkoutAddress.setBillAddress2("addr2");
+		checkoutAddress.setBillCity("city");
+		checkoutAddress.setBillState("California");
+		checkoutAddress.setBillZip("92116");
+		checkoutAddress.setBillPhone("1231231234");
+		checkoutAddress.setBillEmail("email");
+		checkoutAddress.toggleNewsletter();
+		Thread.sleep(30);
+		checkoutAddress.checkNewsletter();
+		Thread.sleep(30);
+		checkoutAddress.uncheckNewsletter();
+		Thread.sleep(30);
+		
+
+		checkoutAddress.setShipFirstName("ship first");
+		checkoutAddress.setShipLastName("ship last");
+		checkoutAddress.setShipCompany("company");
+		checkoutAddress.setShipAddress("ship addr");
+		checkoutAddress.setShipAddress2("ship addr2");
+		checkoutAddress.setShipCity("ship city");
+		checkoutAddress.setShipState("Arizona");
+		checkoutAddress.setShipZip("12345");
+		checkoutAddress.setShipPhone("3213214321");
+		
+		
+		checkoutAddress.toggleCopyBilling();
+		Thread.sleep(30);
+		checkoutAddress.checkCopyBilling();
+		Thread.sleep(30);
+		checkoutAddress.uncheckCopyBilling();
+		Thread.sleep(30);
+
+		checkoutAddress.setCreateAccountPass("passsss");
+		checkoutAddress.setCreateAccountPassConfirm("Other Pass");
+		checkoutAddress.setCreateAccountHint("Hint me");
+		
+		Thread.sleep(9999999);
+		
 	}
 	
 	
