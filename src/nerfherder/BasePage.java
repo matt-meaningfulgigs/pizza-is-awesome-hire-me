@@ -2,6 +2,7 @@ package nerfherder;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.PageFactory;
@@ -20,6 +21,23 @@ public class BasePage {
 		final WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
 		LOG.info("Tick, tock, tick, tock");
 		wait.until(ExpectedConditions.textToBePresentInElement(element, text));
+	}
+
+	public static void waitForElementPresent(WebDriver driver, By elementLocator, long timeOutInSeconds) {
+		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		LOG.info("WAITING FOR ELEMENT");
+		wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
+	}
+	
+	public static void waitForElementVisible(WebDriver driver, WebElement element, long timeOutInSeconds) {
+		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+
+	public static void waitForElementNotVisible(WebDriver driver, By by, long timeOutInSeconds) {
+		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		LOG.info("WAITING FOR ELEMENT TO DIIIIEEEEEEEEEE");
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 	}
 
 	protected WebDriver driver;

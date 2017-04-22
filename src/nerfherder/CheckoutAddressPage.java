@@ -10,9 +10,8 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.ui.Select;
 
 public class CheckoutAddressPage extends BasePage {
-	private static final Log LOG = LogFactory.getLog(CheckoutAddressPage.class);
 	@FindBy(id = "form_bill_street_0")
-	
+
 	private WebElement billAddress;
 
 	@FindBy(id = "form_bill_street_1")
@@ -111,19 +110,6 @@ public class CheckoutAddressPage extends BasePage {
 		super(driver);
 	}
 
-	public void fillBillingInfo(HashMap<String, String> person) {
-		setBillCountry(person.get("country"));
-		setBillFirstName(person.get("first"));
-		setBillLastName(person.get("last"));
-		setBillCompany(person.get("company"));
-		setBillAddress(person.get("address"));
-		setBillCity(person.get("city"));
-		setBillState(person.get("state"));
-		setBillZip(person.get("zip"));
-		setBillPhone(person.get("phone"));
-		setBillEmail(person.get("email"));
-	}
-
 	public void checkCopyBilling() {
 		if (!this.copyBilling.isSelected()) {
 			this.copyBilling.click();
@@ -138,7 +124,7 @@ public class CheckoutAddressPage extends BasePage {
 
 	public PaymentPage clickCheckoutBtn() {
 		this.checkoutBtn.click();
-		return new PaymentPage(driver);
+		return new PaymentPage(this.driver);
 	}
 
 	// TODO: If I had time, I'd make a real login page
@@ -149,6 +135,19 @@ public class CheckoutAddressPage extends BasePage {
 	// TODO: Not this because it doesn't really matter for now
 	public void clickLoginForgotPass() {
 		this.loginForgotPass.click();
+	}
+
+	public void fillBillingInfo(HashMap<String, String> person) {
+		this.setBillCountry(person.get("country"));
+		this.setBillFirstName(person.get("first"));
+		this.setBillLastName(person.get("last"));
+		this.setBillCompany(person.get("company"));
+		this.setBillAddress(person.get("address"));
+		this.setBillCity(person.get("city"));
+		this.setBillState(person.get("state"));
+		this.setBillZip(person.get("zip"));
+		this.setBillPhone(person.get("phone"));
+		this.setBillEmail(person.get("email"));
 	}
 
 	public String getBillAddress() {
