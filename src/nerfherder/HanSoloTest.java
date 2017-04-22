@@ -5,8 +5,6 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.HashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.junit.Test;
 
 public class HanSoloTest extends BaseTest {
@@ -15,7 +13,7 @@ public class HanSoloTest extends BaseTest {
 		// variables
 		final HashMap<String, String> person = this.generatePerson();
 		final HashMap<String, String> card = this.generateCreditCard();
-		
+
 		// Create product page object
 		final LootPage hanSoloRug = new LootPage(driver, "19fe");
 
@@ -36,7 +34,7 @@ public class HanSoloTest extends BaseTest {
 		// Now we has gotst to buy it. Clicking button
 		CartPage cart = hanSoloRug.clickAddToCart();
 
-		// Assert stuff. 
+		// Assert stuff.
 		assertEquals(cart.getCartSize(), 1);
 		assertEquals(cart.getItemName(), "Han Solo in Carbonite Rug");
 		assertEquals(cart.getQuantity(), 1);
@@ -45,7 +43,8 @@ public class HanSoloTest extends BaseTest {
 		assertEquals(cart.getCartTotal(), "$69.99");
 		assertEquals(cart.getSubtotal(), "$69.99");
 
-		// The XL is too XL. Swap to medium, and get 3 to build some Han Solo depth
+		// The XL is too XL. Swap to medium, and get 3 to build some Han Solo
+		// depth
 		cart.setSku("Han Solo small/medium");
 		cart.setQuantity(3);
 		cart = cart.clickUpdateCartBtn();
@@ -60,14 +59,15 @@ public class HanSoloTest extends BaseTest {
 		// Check it, check it, check it out, check it out. My jokes are horrible
 		final CheckoutAddressPage checkoutAddress = cart.clickBottomCheckoutBtn();
 
-		// Fill in the billing/ shipping info so someone pays for something and it goes somewhere
+		// Fill in the billing/ shipping info so someone pays for something and
+		// it goes somewhere
 		checkoutAddress.fillBillingInfo(person);
 		checkoutAddress.uncheckNewsletter();
 		checkoutAddress.checkCopyBilling();
 
 		// Another checkout button... These things are like roaches
 		final PaymentPage pay = checkoutAddress.clickCheckoutBtn();
-		
+
 		// Just waiting for the page to load
 		pay.waitForLineItem("Han Solo small/medium");
 
@@ -81,9 +81,10 @@ public class HanSoloTest extends BaseTest {
 		// Like how I got 187 here? I'm from the STREETS
 		assertEquals(pay.getCartTotal(), "191.59");
 
-		// Change shipping method because the company is paying for it with their fake credit card
+		// Change shipping method because the company is paying for it with
+		// their fake credit card
 		pay.clickShippingExpress();
-		
+
 		// Baller money right here
 		assertEquals(pay.getCartShipping(), "$54.95");
 		assertEquals(pay.getCartTotal(), "216.54");
@@ -96,7 +97,8 @@ public class HanSoloTest extends BaseTest {
 		assertTrue(pay.getShippingAddress().contains(person.get("zip")));
 		assertTrue(pay.getShippingAddress().contains(person.get("country")));
 
-		// Fill credit card info. No funny jokes. This is pretty standard. Why are you still reading this?
+		// Fill credit card info. No funny jokes. This is pretty standard. Why
+		// are you still reading this?
 		pay.fillCardInfo(card);
 
 		// You think this is the final buy button? HA!
@@ -111,17 +113,17 @@ public class HanSoloTest extends BaseTest {
 		assertTrue(pay.getReviewAddress().contains(person.get("country")));
 
 		assertEquals(pay.getReviewTotal(), "216.54");
-		
+
 		// Finally... FINALLY
 		pay.clickReviewPlaceOrderBtn();
 
 		// Wait for failure message
 		pay.waitForProcessing();
 		pay.waitForTransactionMessage();
-		
+
 		// Assert it's a fail, which it is
 		assertEquals(pay.getTransactionMessage(), "Transaction was declined by processor");
-		
+
 		// The End
 	}
 

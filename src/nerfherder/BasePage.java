@@ -17,27 +17,27 @@ public class BasePage {
 		driver2.get(url);
 	}
 
+	public static void waitForElementNotVisible(WebDriver driver, By by, long timeOutInSeconds) {
+		final WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		LOG.info("WAITING FOR ELEMENT TO DIIIIEEEEEEEEEE");
+		wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
+	}
+
+	public static void waitForElementPresent(WebDriver driver, By elementLocator, long timeOutInSeconds) {
+		final WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		LOG.info("WAITING FOR ELEMENT");
+		wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
+	}
+
+	public static void waitForElementVisible(WebDriver driver, WebElement element, long timeOutInSeconds) {
+		final WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
+		wait.until(ExpectedConditions.visibilityOf(element));
+	}
+
 	public static void waitForText(WebDriver driver, WebElement element, String text, long timeOutInSeconds) {
 		final WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
 		LOG.info("Tick, tock, tick, tock");
 		wait.until(ExpectedConditions.textToBePresentInElement(element, text));
-	}
-
-	public static void waitForElementPresent(WebDriver driver, By elementLocator, long timeOutInSeconds) {
-		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
-		LOG.info("WAITING FOR ELEMENT");
-		wait.until(ExpectedConditions.presenceOfElementLocated(elementLocator));
-	}
-	
-	public static void waitForElementVisible(WebDriver driver, WebElement element, long timeOutInSeconds) {
-		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
-		wait.until(ExpectedConditions.visibilityOf(element));
-	}
-
-	public static void waitForElementNotVisible(WebDriver driver, By by, long timeOutInSeconds) {
-		WebDriverWait wait = new WebDriverWait(driver, timeOutInSeconds);
-		LOG.info("WAITING FOR ELEMENT TO DIIIIEEEEEEEEEE");
-		wait.until(ExpectedConditions.invisibilityOfElementLocated(by));
 	}
 
 	protected WebDriver driver;

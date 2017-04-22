@@ -2,8 +2,6 @@ package nerfherder;
 
 import java.util.HashMap;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -31,7 +29,7 @@ public class PaymentPage extends BasePage {
 	@FindBy(xpath = "//*[@id='order_summary_total']//*[@class='ajax_total']")
 	private WebElement cartTotal;
 
-	@FindBy(className = "ajax_ship_address")
+	@FindBy(xpath = "//*[@class='payment-method-email']//*[@class='ajax_bill_email']")
 	private WebElement emailReceipt;
 
 	@FindBy(id = "form_has_gift_message")
@@ -49,7 +47,7 @@ public class PaymentPage extends BasePage {
 	@FindBy(xpath = "//*[@class='items-summary-header']/p")
 	private WebElement orderId;
 
-	@FindBy(className = "ajax_ship_address")
+	@FindBy(xpath = "//label[@for='payment_method_CC']")
 	private WebElement paymentCc;
 
 	@FindBy(id = "form_pay_validation_new")
@@ -64,13 +62,11 @@ public class PaymentPage extends BasePage {
 	@FindBy(id = "form_pay_number")
 	private WebElement paymentCcNum;
 
-	@FindBy(className = "ajax_ship_address")
+	@FindBy(xpath = "//label[@for='payment_method_PayPalExpress']")
 	private WebElement paymentPayPal;
 
-	@FindBy(className = "ajax_ship_address")
+	@FindBy(className = "ajax_bill_address")
 	private WebElement paymenyCcBillingAddress;
-
-	private WebElement processing;
 
 	@FindBy(id = "form_promo_cert_code")
 	private WebElement promoCode;
@@ -113,7 +109,7 @@ public class PaymentPage extends BasePage {
 
 	@FindBy(xpath = "//label[@for='shipping_method_USSTANDARD']")
 	private WebElement shippingStandard;
-	
+
 	@FindBy(xpath = "//div[@id='warpspeed-wrapper' and @class='is-loading']")
 	private WebElement spinner;
 
@@ -122,17 +118,9 @@ public class PaymentPage extends BasePage {
 
 	@FindBy(id = "fancybox-inner")
 	private WebElement transactionMessage;
-	
 
 	public PaymentPage(WebDriver driver) {
 		super(driver);
-	}
-
-	public void fillCardInfo(HashMap<String, String> card) {
-		this.setPaymentCcNum(card.get("number"));
-		this.setPaymentCcExpMonth(card.get("expMonth"));
-		this.setPaymentCcExpYear(card.get("expYear"));
-		this.setPaymentCcCvc(card.get("cvc"));
 	}
 
 	public void clickGiftMessage() {
@@ -177,24 +165,31 @@ public class PaymentPage extends BasePage {
 
 	public void clickShippingExpedited() {
 		this.shippingExpedited.click();
-		BasePage.waitForElementPresent(driver, By.xpath("//div[@class='is-loading']"), 15);
-		BasePage.waitForElementNotVisible(driver, By.xpath("//div[@class='is-loading']"), 15);
+		BasePage.waitForElementPresent(this.driver, By.xpath("//div[@class='is-loading']"), 15);
+		BasePage.waitForElementNotVisible(this.driver, By.xpath("//div[@class='is-loading']"), 15);
 	}
 
 	public void clickShippingExpress() {
 		this.shippingExpress.click();
-		BasePage.waitForElementPresent(driver, By.xpath("//div[@class='is-loading']"), 15);
-		BasePage.waitForElementNotVisible(driver, By.xpath("//div[@class='is-loading']"), 15);
+		BasePage.waitForElementPresent(this.driver, By.xpath("//div[@class='is-loading']"), 15);
+		BasePage.waitForElementNotVisible(this.driver, By.xpath("//div[@class='is-loading']"), 15);
 	}
 
 	public void clickShippingStandard() {
 		this.shippingStandard.click();
-		BasePage.waitForElementPresent(driver, By.xpath("//div[@class='is-loading']"), 15);
-		BasePage.waitForElementNotVisible(driver, By.xpath("//div[@class='is-loading']"), 15);
+		BasePage.waitForElementPresent(this.driver, By.xpath("//div[@class='is-loading']"), 15);
+		BasePage.waitForElementNotVisible(this.driver, By.xpath("//div[@class='is-loading']"), 15);
 	}
 
 	public void clickTransactionCloseBtn() {
 		this.reviewCloseBtn.click();
+	}
+
+	public void fillCardInfo(HashMap<String, String> card) {
+		this.setPaymentCcNum(card.get("number"));
+		this.setPaymentCcExpMonth(card.get("expMonth"));
+		this.setPaymentCcExpYear(card.get("expYear"));
+		this.setPaymentCcCvc(card.get("cvc"));
 	}
 
 	public String getCartLineItem() {
@@ -259,15 +254,6 @@ public class PaymentPage extends BasePage {
 
 	public String getPaymenyCcBillingAddress() {
 		return this.paymenyCcBillingAddress.getText();
-	}
-
-	public void waitForProcessing() {
-		BasePage.waitForElementPresent(driver, By.id("processing"), 15);
-		BasePage.waitForElementNotVisible(driver, By.id("processing"), 15);
-	}
-
-	public void waitForTransactionMessage() {
-		BasePage.waitForElementVisible(driver, transactionMessage, 15);
 	}
 
 	public String getPromoCode() {
@@ -335,5 +321,14 @@ public class PaymentPage extends BasePage {
 
 	public void waitForLineItem(String item) {
 		BasePage.waitForText(this.driver, this.cartLineItem, item, 15);
+	}
+
+	public void waitForProcessing() {
+		BasePage.waitForElementPresent(this.driver, By.id("processing"), 15);
+		BasePage.waitForElementNotVisible(this.driver, By.id("processing"), 15);
+	}
+
+	public void waitForTransactionMessage() {
+		BasePage.waitForElementVisible(this.driver, this.transactionMessage, 15);
 	}
 }
